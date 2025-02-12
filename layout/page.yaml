@@ -1,0 +1,7 @@
+directive:
+  - position .body.session-updater last
+.body:
+  .session-updater:
+    id: lightna-session-updater
+    private: true
+    template: lightna/lightna-session/page/session/updater.phtml

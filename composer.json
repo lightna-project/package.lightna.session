@@ -1,0 +1,10 @@
+{
+    "name": "lightna/lightna.session",
+    "description": "Lightna Session module",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "require": {
+        "lightna/engine": "^1.0"
+    }
+}

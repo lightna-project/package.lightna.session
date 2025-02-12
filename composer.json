@@ -5,6 +5,6 @@
     "license": "MIT",
     "version": "1.0.0",
     "require": {
-        "lightna/engine": "^1.0"
+        "lightna/lightna.engine": "^1.0"
     }
 }

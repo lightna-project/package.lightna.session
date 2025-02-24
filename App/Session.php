@@ -10,6 +10,7 @@ use Lightna\Engine\App\ObjectA;
 use Lightna\Session\App\Handler\HandlerInterface;
 use Lightna\Session\App\Session\Cookie;
 use Lightna\Session\App\Session\DataBuilder;
+use Lightna\Session\App\Session\Serializer;
 use Throwable;
 
 class Session extends ObjectA
@@ -24,6 +25,8 @@ class Session extends ObjectA
     protected Cookie $cookie;
     protected Context $context;
     protected DataBuilder $dataBuilder;
+    protected Serializer $serializer;
+
     protected array $data;
     protected bool $isReindexRequired = false;
 
@@ -78,9 +81,8 @@ class Session extends ObjectA
         if ($srz === '') return [];
 
         try {
-            $data = unserialize($srz, ['allowed_classes' => false]);
+            $data = $this->serializer->unserialize($srz);
         } catch (Throwable $e) {
-            // By default, only session.serialize_handler = php_serialize is supported
             throw new Exception('Failed to unserialized session.');
         }
 

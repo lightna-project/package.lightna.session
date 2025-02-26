@@ -48,16 +48,16 @@ class Session extends ObjectA
     /** @noinspection PhpUnused */
     protected function defineData(): void
     {
-        $this->data = $this->read();
+        $this->data = $this->readData();
     }
 
-    protected function read(): array
+    protected function readData(): array
     {
         if (!$this->canRead()) {
             throw new Exception('Reading the session on public pages is not allowed in FPC-compatible mode.');
         }
 
-        $srz = $this->handler->read();
+        $srz = $this->readContent();
         $this->dataBuilder->setSessionData($this->getSessionData($this->unserialize($srz)));
         $scopeData = $this->dataBuilder->getScopeData();
         $this->isReindexRequired = $this->dataBuilder->getIsReindexRequired();
@@ -68,6 +68,11 @@ class Session extends ObjectA
     public function canRead(): bool
     {
         return !$this->fpcCompatible || $this->context->visibility === 'private';
+    }
+
+    protected function readContent(): string
+    {
+        return $this->handler->read();
     }
 
     public function prolong(): void

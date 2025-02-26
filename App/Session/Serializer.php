@@ -34,7 +34,7 @@ class Serializer extends ObjectA
 
     protected function unserializeNative(string $srz): mixed
     {
-        return unserialize($srz, ['allowed_classes' => false]);
+        return unserialize($srz, ['allowed_classes' => []]);
     }
 
     protected function unserializePhp(string $srz): array
@@ -49,7 +49,10 @@ class Serializer extends ObjectA
             $num = $pos - $offset;
             $varName = substr($srz, $offset, $num);
             $offset += $num + 1;
-            $data = unserialize(substr($srz, $offset), ['allowed_classes' => false]);
+
+            // Suppress warning: 8.3.0 Now emits E_WARNING when the input string has unconsumed data.
+            $data = @$this->unserializeNative(substr($srz, $offset));
+
             $result[$varName] = $data;
             $offset += strlen(serialize($data));
         }
